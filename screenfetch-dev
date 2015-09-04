@@ -43,8 +43,8 @@ scriptVersion="3.6.8"
 
 # This sets the information to be displayed. Available: distro, Kernel, DE, WM, Win_theme, Theme, Icons, Font, Background, ASCII. To get just the information, and not a text-art logo, you would take "ASCII" out of the below variable.
 #display="distro host kernel uptime pkgs shell res de wm wmtheme gtk disk cpu gpu mem"
-valid_display=( distro host kernel uptime pkgs shell res de wm wmtheme gtk disk cpu gpu mem )
-display=( distro host kernel uptime pkgs shell res de wm wmtheme gtk cpu gpu mem )
+valid_display=( distro host kernel uptime pkgs updates shell res de wm wmtheme gtk disk cpu gpu mem )
+display=( distro host kernel uptime pkgs updates shell res de wm wmtheme gtk cpu gpu mem )
 # Display Type: ASCII or Text
 display_type="ASCII"
 # Plain logo
@@ -2104,6 +2104,11 @@ detectdroid () {
 	cpu=$(echo "$cpu" | sed 's/Processor.*: //')
 }
 
+detectupdates() {
+    update_number=`pacman -Qu | wc -l`
+    updates="$update_number available"
+}
+
 
 #######################
 # End Detection Phase
@@ -4145,6 +4150,7 @@ infoDisplay () {
 		if [[ "${display[@]}" =~ "cpu" ]]; then mycpu=$(echo -e "$labelcolor CPU:$textcolor $cpu"); out_array=( "${out_array[@]}" "$mycpu" ); ((display_index++)); fi
 		if [[ "${display[@]}" =~ "gpu" ]] && [[ "$gpu" != "Not Found" ]]; then mygpu=$(echo -e "$labelcolor GPU:$textcolor $gpu"); out_array=( "${out_array[@]}" "$mygpu" ); ((display_index++)); fi
 		if [[ "${display[@]}" =~ "mem" ]]; then mymem=$(echo -e "$labelcolor RAM:$textcolor $mem"); out_array=( "${out_array[@]}" "$mymem" ); ((display_index++)); fi
+		if [[ "${display[@]}" =~ "updates" ]]; then myupdates=$(echo -e "$labelcolor Updates:$textcolor $updates"); out_array=( "${out_array[@]}" "$myupdates" ); ((display_index++)); fi
 	fi
 	if [[ "$display_type" == "ASCII" ]]; then
 		asciiText
