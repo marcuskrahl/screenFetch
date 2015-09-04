@@ -2106,7 +2106,8 @@ detectdroid () {
 
 detectupdates() {
     update_number=`pacman -Qu | wc -l`
-    updates="$update_number available"
+    aur_number=`yaourt -Qua | grep "^aur"| wc -l`
+    updates="$update_number available / AUR $aur_number available"
 }
 
 
